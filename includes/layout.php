@@ -1,4 +1,4 @@
-<div class="wrapper text-sm">
+<div class="wrapper">
   <!-- Navbar -->
   <nav class="main-header navbar navbar-expand navbar-white navbar-light border-bottom-0">
     <!-- Left navbar links -->
@@ -114,7 +114,7 @@
     <a href="#" class="brand-link">
       <img src="includes/dist/img/AdminLTELogo.png" alt="Clean" class="brand-image img-circle elevation-3"
            style="opacity: .8">
-      <span class="brand-text font-weight-light">Clean AdminLTE 3</span>
+      <span class="brand-text font-weight-light">OS A330-350</span>
     </a>
 
     <!-- Sidebar -->

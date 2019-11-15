@@ -18,20 +18,13 @@
           </div>
         </div>
         <div class="card-body p-0">
+        <span class="font-weight-bold">File upload : </span>&nbsp;
+                        <input type="file" file-input="file_upload" />
+                        <button ng-click="uploadFile()" class="btn btn-success">บันทึก</button>
         </div>
       </div>
     <?php include("includes/footer.php"); ?>
 </body>
 
 </html>
-<script>
-app.controller('myCtrl', function($scope, $http, $q) {
-  angular.element(document).ready(function() {
-        showLoading();
-        setTimeout(() => {
-          hideLoading();
-          showSuccess("Test modal");
-        }, 1000);
-    });
-});
-</script>
+<script src="scripts/index.js"></script>
