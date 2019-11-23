@@ -8,7 +8,7 @@
 $dbhost     = "5.7-mysql";
 $dbuser     = "root";
 $dbpass     = "P@ssw0rd";
-$dbname     = "os-a330-3650x";
+$dbname     = "timeoff_system";
 
 $conn = mysqli_connect($dbhost, $dbuser, $dbpass, $dbname);
 

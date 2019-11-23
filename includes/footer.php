@@ -7,12 +7,6 @@
 <!-- Control sidebar content goes here -->
 </aside>
 
-
-<footer class="main-footer">
-    <div class="float-right d-none d-sm-inline-block">
-    <?include("function/version.php")?>
-    </div>
-</footer>
 </div>
 
 <!-- Loading Modal !-->
@@ -33,8 +27,8 @@
                 <h3 style="color:green" id="txtSuccessMessage">บันทึกข้อมูลสำเร็จ</h3>
             </div>
             <div class="modal-footer">
-                <!-- <button type="button" class="btn btn-success" onclick="document.location.reload(true)">OK</button> -->
-                <button type="button" class="btn btn-success" data-dismiss="modal">OK</button>
+                <button type="button" class="btn btn-success" id="btnReloadSuccess" style="display:none" onclick="window.location.reload(true)">OK</button>
+                <button type="button" class="btn btn-success" id="btnSuccess" style="display:none" data-dismiss="modal">OK</button>
             </div>
         </div>
     </div>
@@ -61,12 +55,14 @@
 <script src="includes/plugins/jquery/jquery.min.js"></script>
 <!-- Bootstrap -->
 <script src="includes/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+
 <!-- overlayScrollbars -->
 <script src="includes/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
 <!-- AdminLTE App -->
-<script src="includes/dist/js/adminlte.js"></script>
-<script src="includes/dist/js/angularjs.js"></script>
-<script src="includes/dist/js/site.js"></script>
+<script src="includes/dist/js/adminlte.js?t=<?=time()?>"></script>
+<script src="includes/dist/js/angularjs.js?t=<?=time()?>"></script>
+<script src="includes/dist/js/site.js?t=<?=time()?>"></script>
+<script src="includes/plugins/angular-paging/paging.js"></script>
 
 <!-- OPTIONAL SCRIPTS -->
 <script src="includes/dist/js/demo.js"></script>

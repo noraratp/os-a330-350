@@ -1,4 +1,4 @@
-var app = angular.module('myApp', []);
+var app = angular.module('myApp', ['angularUtils.directives.dirPagination']);
 angular.module('myApp').directive('ngEnter', function() {
     return function(scope, element, attrs) {
         element.bind("keydown keypress", function(event) {
@@ -13,6 +13,12 @@ angular.module('myApp').directive('ngEnter', function() {
             }
         });
     };
+});
+
+app.run(function ($rootScope, $templateCache) {
+    $rootScope.$on('$viewContentLoaded', function () {
+        $templateCache.removeAll();
+    });
 });
 
 app.directive('numbersOnly', function() {
@@ -52,6 +58,18 @@ app.directive("fileInput", function($parse) {
 
 $(document).ready(function() {
     $('#loading_panel').hide();
+    var item = $.fn.dataTable.tables();
+
+    for (var i = 0; i < item.length; i++) {
+        item[i].classList.add("table-column-header");
+    }
+    $.fn.dataTable.tables({ visible: true, api: true }).columns.adjust();
+    
+    
+});
+
+$(document).on('shown.bs.modal', function (e) {
+    $.fn.dataTable.tables( {visible: true, api: true} ).columns.adjust();
 });
 
 function showLoading() {
@@ -62,16 +80,28 @@ function hideLoading() {
     $('#loading_panel').hide();
 }
 
-function showSuccess(msg) {
+function showSuccess(msg, reload) {
     $("#modalSuccess").modal("show");
     if (msg != "") {
         $("#txtSuccessMessage").html(msg);
     }
+    if(reload){
+        $('#btnReloadSuccess').show();
+        $('#btnSuccess').hide();
+    } else {
+        $('#btnSuccess').show();
+        $('#btnReloadSuccess').hide();
+    }
 }
-
 function showError(msg) {
     $("#modalError").modal("show");
     if (msg != "") {
         $("#txtErrorMessage").html(msg);
     }
 }
+function uuidv4() {
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+      var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+      return v.toString(16);
+    });
+  }

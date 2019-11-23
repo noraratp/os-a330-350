@@ -1,5 +1,6 @@
 <?php
-function json_response($code = 200, $message = null) {
+function json_response($code = 200, $message = null)
+{
     // clear the old headers
     header_remove();
     // set the actual code
@@ -23,38 +24,53 @@ function json_response($code = 200, $message = null) {
         ));
 }
 
-function mysqli_get_json_object($sql, $conn){
+function mysqli_get_json_object($sql, $conn)
+{
     $query = mysqli_query($conn, $sql);
-	if (!$query) {
+    if (!$query) {
         return json_response(500, $conn->error);
-		exit();
-	}
-	$resultObject = mysqli_fetch_array($query,MYSQLI_ASSOC);
+        exit();
+    }
+    $resultObject = mysqli_fetch_array($query, MYSQLI_ASSOC);
     
-	mysqli_close($conn);
+    mysqli_close($conn);
 
     return json_response(200, $resultObject);
 }
 
-function mysqli_get_json_list($sql, $conn){
+function mysqli_get_json_list($sql, $conn)
+{
     $query = mysqli_query($conn, $sql);
-	if (!$query) {        
+    if (!$query) {
         return json_response(500, $conn->error);
-		exit();
-    }    
-	$resultArray = array();
-	while($result = mysqli_fetch_array($query,MYSQLI_ASSOC))
-	{
-		array_push($resultArray, $result);
+        exit();
+    }
+    $resultArray = array();
+    while ($result = mysqli_fetch_array($query, MYSQLI_ASSOC)) {
+        array_push($resultArray, $result);
     }
     
-	mysqli_close($conn);
+    mysqli_close($conn);
 
     return json_response(200, $resultArray);
-    
 }
 
-function mysqli_execute_db($sql, $conn ,$files = null){
+function mysqli_execute_db($sql, $conn, $files = null)
+{
+    try {
+        if (mysqli_query($conn, $sql)) {
+            return json_response(200, true);
+        } else {
+            return json_response(500, mysqli_error($conn));
+        }
+        return json_response(200, true);
+    } catch (mysqli_sql_exception $e) {
+        return json_response(500, $e->getMessage());
+    }
+}
+
+function mysqli_execute_db_return_id($sql, $conn, $files = null)
+{
     try {
         mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
 
@@ -63,13 +79,13 @@ function mysqli_execute_db($sql, $conn ,$files = null){
     
         /* Run your queries */
         mysqli_query($conn, $sql);
+        $last_id = $conn->insert_id;
 
         /* commit transaction */
         mysqli_commit($conn);
 
-        return json_response(200, true);
-    }
-    catch (mysqli_sql_exception $e){
+        return  $last_id;
+    } catch (mysqli_sql_exception $e) {
         return json_response(500, $e->getMessage());
     }
 }
