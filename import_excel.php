@@ -20,17 +20,9 @@
             </h3>
         </div>
         <div class="card-body">
-            <div class="form-inline">
-                <div class="col" style="margin-bottom:10px;">
-                    <button ng-click="saveData()" class="btn btn-success">บันทึก</button>
-                    <button class="btn btn-danger">ยกเลิก</button>
-                </div>
-            </div>
 
             <div class="col">
-                <div class="card-header bg-primary">
-                    <h3 class="card-title">นำเข้าข้อมูล </h3>
-                </div>
+
                 <div class="form-group">
                     <span>เลือกไฟล์ : </span>
                     <input type="file" id="fileUploader" name="fileUploader" accept=".xls, .xlsx" />
@@ -40,6 +32,15 @@
                     </table>
                 </div>
             </div>
+        </div>
+        <div class="card-footer">
+            <div class="form-inline">
+                <div class="col" style="margin-bottom:10px;">
+                    <button ng-click="saveData()" class="btn btn-success">บันทึก</button>
+                    <button class="btn btn-danger">ยกเลิก</button>
+                </div>
+            </div>
+
         </div>
     </div>
 

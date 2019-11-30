@@ -18,6 +18,14 @@ switch ($_SERVER["SCRIPT_NAME"]) {
         // 	header("Location: index.php");
         // }
         break;
+    case "/os-a330-350/timeoff_list.php":
+        $CURRENT_PAGE = "TimeoffList";
+        $PAGE_TITLE = "Timeoff List";
+        // if($_SESSION['login_user']->type != "admin")
+        // {
+        // 	header("Location: index.php");
+        // }
+        break;
     default:
         $CURRENT_PAGE = "Index";
         $PAGE_TITLE = "Dashboard";

@@ -29,6 +29,7 @@ app.controller('empListCtrl', function ($scope, $http, $q ,$window) {
   $scope.searchEmployee = function () {
     $scope.selectedEmployee = {};
     $scope.getEmployee().then(function (data) {
+     
       setTimeout(function(){
         $scope.employeeList = data;
         console.log($scope.employeeList[0])
@@ -52,6 +53,7 @@ app.controller('empListCtrl', function ($scope, $http, $q ,$window) {
         action: "get_employee_list"
       },
     }).then(function successCallback(response) {
+      
       if (response.status == 200) {
         $scope.data = response.data.message;
         dfrd.resolve($scope.data);
@@ -61,6 +63,7 @@ app.controller('empListCtrl', function ($scope, $http, $q ,$window) {
         return
       }
     }, function (error) {
+      console.log(error);
       showError(error.message);
       hideLoading();
       return

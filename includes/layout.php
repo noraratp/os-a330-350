@@ -31,7 +31,13 @@
                     <img src="includes/dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
                 </div>
                 <div class="info">
-                    <a href="#" class="d-block">Administrator</a>
+                    <a href="#"><h5 class="d-block"><? echo($_SESSION['login_user']->firstname . ' ' . $_SESSION['login_user']->lastname); ?></h5></a>
+                    <div class="animated--grow-in">
+                        <a class="" href="#" data-toggle="modal" data-target="#logoutModal">
+                            <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+                            Logout
+                        </a>
+                    </div>
                 </div>
             </div>
 
@@ -55,7 +61,16 @@
                             class="nav-link <?php if ($CURRENT_PAGE == "EmployeeList") {?>active<?php }?>">
                             <i class="nav-icon fas fa-th"></i>
                             <p>
-                                ลงวันลา พนักงาน
+                               พนักงาน
+                            </p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="timeoff_list.php"
+                            class="nav-link <?php if ($CURRENT_PAGE == "TimeoffList") {?>active<?php }?>">
+                            <i class="nav-icon fas fa-bed"></i>
+                            <p>
+                                รายงานการลา
                             </p>
                         </a>
                     </li>
