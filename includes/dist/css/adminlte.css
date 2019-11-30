@@ -13,10 +13,10 @@
  */
 
 @font-face {
-  font-family: 'Kanit';
+  font-family: 'Prompt';
   font-style: normal;
   font-weight: normal;
-  src: local('Kanit'), url('fonts/kanit-light.woff') format('woff');
+  src: local('Prompt'), url('fonts/Prompt-Regular.woff') format('woff');
 }
 
 :root {
@@ -57,7 +57,7 @@
 }
 
 html {
-  font-family: "Kanit";
+  font-family: "Prompt";
   line-height: 1.15;
   -webkit-text-size-adjust: 100%;
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
@@ -69,9 +69,9 @@ article, aside, figcaption, figure, footer, header, hgroup, main, nav, section {
 
 body {
   margin: 0;
-  font-family: "Kanit", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
-  font-size: 1rem;
-  font-weight: 400;
+  font-family: "Prompt", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  font-size: 0.9rem;
+  font-weight: 300;
   line-height: 1.5;
   color: #212529;
   text-align: left;
