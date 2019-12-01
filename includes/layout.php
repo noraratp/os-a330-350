@@ -74,6 +74,15 @@
                             </p>
                         </a>
                     </li>
+                    <li class="nav-item">
+                        <a href="behavior_list.php"
+                            class="nav-link <?php if ($CURRENT_PAGE == "BehaviorList") {?>active<?php }?>">
+                            <i class="nav-icon fas fa-address-book"></i>
+                            <p>
+                                รายงานการความประพฤติ
+                            </p>
+                        </a>
+                    </li>
 
                     <li class="nav-item has-treeview">
                         <a href="#" class="nav-link">

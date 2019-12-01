@@ -1,9 +1,10 @@
 
 <?php
 // $dbhost     = "localhost";
-// $dbuser     = "greanman_honda";
-// $dbpass     = "159874236";
-// $dbname     = "greanman_honda";
+// $dbuser     = "chatphon_sick";
+// $dbpass     = "P@ssw0rd";
+// $dbname     = "chatphon_sick";
+
 
 $dbhost     = "5.7-mysql";
 $dbuser     = "root";

@@ -21,6 +21,8 @@ if (isset($action) && !empty($action)) {
         break;
         case 'update_leave': update_leave($data, $conn);
         break;
+        case 'insert_behavior': insert_behavior($data, $conn);
+        break;
         default: echo json_response(500, "Not found methods");
     }
 }
@@ -86,7 +88,7 @@ function insert_leave($params, $conn)
     $result = mysqli_execute_db($sql, $conn);
 
     $sql = "UPDATE tb_employee SET timeoff_used=(timeoff_used+$row->leave_days) ,updated_date=now(),updated_by='$username' WHERE id = $row->id";
-    $result = mysqli_execute_db($sql, $conn, $_FILES);
+    $result = mysqli_execute_db($sql, $conn);
 
     echo $result;
 }
@@ -116,6 +118,60 @@ function update_leave($params, $conn)
 
     $sql = "UPDATE tb_employee SET timeoff_used=(timeoff_used+$diff_days) ,updated_date=now(),updated_by='$username' WHERE id = $row->employee_id";
     $result = mysqli_execute_db($sql, $conn, $_FILES);
+
+    echo $result;
+}
+
+function insert_behavior($params, $conn)
+{
+    $username = $_SESSION['login_user']->username;
+    $row = $params->post_data;
+    $sql = " INSERT INTO tb_behavior (employee_id,date,type,note,flight,created_by,created_date)
+    VALUES (
+    $row->id,
+    '$row->date',
+    '$row->type',
+    '$row->note',
+    '$row->flight',
+    'test',now()) ";
+
+    $good = 0;
+    $bad = 0;
+    if($row->type == 'good') {
+        $good = 1;
+    }
+    else if ($row->type == 'bad') {
+        $bad = 1;
+    }
+
+    $result = mysqli_execute_db($sql, $conn);
+
+    $sql = "UPDATE tb_employee SET good=good+$good,bad=bad+$bad ,updated_date=now(),updated_by='$username' WHERE id = $row->id";
+
+    $result = mysqli_execute_db($sql, $conn);
+
+    echo $result;
+}
+
+function update_behavior($params, $conn)
+{
+    $username = $_SESSION['login_user']->username;
+    $row = $params->post_data;
+
+    if(empty($row->medical_cert)) {
+        $row->medical_cert = $row->old_medical_cert;
+    }
+
+    $sql = " UPDATE tb_behavior SET 
+    date = '$row->date',
+    type = '$row->type',
+    note='$row->note',
+    flight='$row->flight',
+    updated_by='$username',
+    updated_date=now()
+     WHERE id = $row->id";
+
+    $result = mysqli_execute_db($sql, $conn);
 
     echo $result;
 }

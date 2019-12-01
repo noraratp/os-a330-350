@@ -6,11 +6,11 @@
 </head>
 
 <link rel="stylesheet" href="includes/plugins/datatables-bs4/css/dataTables.bootstrap4.css">
-<link rel="stylesheet" href="includes/plugins/daterangepicker/daterangepicker.css">
+<link href="includes/plugins/datepicker/datepicker.css" rel="stylesheet">
 
 <body class="hold-transition sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed">
     <?php include("includes/layout.php"); ?>
-    <div ng-app="myApp" ng-controller="timeoffListCtrl" class="card" id="dvTimeoffList">
+    <div ng-app="myApp" ng-controller="behaviorListCtrl" class="card" id="dvBehaviorList">
         <div class="card-header">
             <h3 class="card-title">
                 <?echo $PAGE_TITLE ?>
@@ -19,21 +19,21 @@
         </div>
         <div class="card-body">
             <div class="col" style="margin-top:10px">
-                <table class="table table-hover" id="tbTimeoff" style="width:100%">
+                <table class="table table-hover" id="tbBehavior" style="width:100%">
                 </table>
             </div>
         </div>
-        <div class="modal fade bd-example-modal-lg" id="modalInput" tabindex="-1" role="dialog"
+        <div class="modal fade bd-example-modal-lg" id="modalBehavior" role="dialog"
             aria-labelledby="modalInput" aria-hidden="true" data-backdrop="static" data-keyboard="false">
             <div class="modal-dialog modal-lg" role="document">
                 <div class="modal-content">
                     <div class="modal-header bg-primary">
-                        <h5 class="modal-title" id="exampleModalLabel">Update Sick Leave</h5>
+                        <h5 class="modal-title" id="exampleModalLabel">Behavior</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">×</span>
                         </button>
                     </div>
-                    <div class="modal-body" id="dvBody">
+                    <div class="modal-body" id="dvBodyBehavior">
                         <div class="container">
                             <div class="row">
                                 <div class="col-sm">
@@ -49,7 +49,8 @@
                                             </div>
                                             <h3 class="profile-username text-center">{{selectedRecord.name_en}}
                                                 {{ selectedRecord.surname_en }}</h3>
-                                            <p class="text-muted text-center"> {{ selectedRecord.employee_display}}</p>
+                                            <p class="text-muted text-center"> {{ selectedRecord.rank}}
+                                                {{selectedRecord.name_en}} {{selectedRecord.f_surname_en}}</p>
                                             <ul class="list-group list-group-unbordered mb-3">
                                                 <li class="list-group-item">
                                                     <div class="progress mb-3">
@@ -81,60 +82,44 @@
                                 <div class="col-sm">
                                     <div class="card card-primary card-outline">
                                         <div class="card-header bg-warning">
-                                            <h3 class="card-title">ข้อมูลลา</h3>
+                                            <h3 class="card-title">ข้อมูลพฤติกรรม</h3>
                                         </div>
-                                        <div class="card-body box-profile" style="margin-bottom:11px">
+                                        <div class="card-body box-profile" style="margin-bottom:22px">
 
                                             <div class="form-group" style="margin-top:10px">
                                                 <div class="form-inline">
-                                                    <span class="font-weight-bold">วันลา : <span
+                                                    <span class="font-weight-bold">วันที่ : <span
                                                             class="required">*</span></span>&nbsp;
-
-                                                    <div class="input-group">
-                                                        <div class="input-group-prepend">
-                                                            <span class="input-group-text">
-                                                                <i class="far fa-calendar-alt"></i>
-                                                            </span>
-                                                        </div>
-                                                        <input type="text" class="form-control float-right"
-                                                            ng-model="selectedRecord.leave_date"
-                                                            ng-class="selectedRecord.leave_date == '' || selectedRecord.leave_date == undefined ? 'required-element' : ''"
-                                                            id="reservation">
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="form-group" style="margin-top:10px">
-                                                <div class="form-inline">
-                                                    <span class="font-weight-bold">จำนวนวัน : </span>&nbsp;
-
-                                                    <div class="input-group text-danger">
-                                                        {{ selectedRecord.days || 0 }}
-                                                    </div>
-                                                    &nbsp; วัน
+                                                    <input class="form-control datepicker" placeholder="ปี/เดือน/วัน"
+                                                        ng-model="selectedRecord.date"
+                                                        ng-class="selectedRecord.date == '' || selectedRecord.date == undefined ? 'required-element' : ''"
+                                                        data-date-format="yyyy/mm/dd">
                                                 </div>
                                             </div>
                                             <div class="form-group">
                                                 <div class="form-inline">
-                                                    <span class="font-weight-bold">Flight <span
+                                                    <span class="font-weight-bold">ประเภท : <span
                                                             class="required">*</span></span>&nbsp;
+                                                </div>
+                                                <select class="form-control" ng-model="selectedRecord.type" disabled
+                                                    ng-class="selectedRecord.type == '' || selectedRecord.type == undefined ? 'required-element' : ''">
+                                                    <option value="" disabled>-- ประเภท --</option>
+                                                    <option value="good">ประพฤติกระทำความดี</option>
+                                                    <option value="bad">ประพฤติกระทำความผิด</option>
+                                                </select>
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="form-inline">
+                                                    <span class="font-weight-bold">Flight : </span>&nbsp;
                                                     <input class="form-control" placeholder=""
-                                                        ng-model="selectedRecord.flight"
-                                                        ng-class="selectedRecord.flight == '' || selectedRecord.flight == undefined ? 'required-element' : ''">
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <div class="form-inline">
-                                                    <span style="margin-bottom:10px"
-                                                        class="font-weight-bold">ใบรับรองแพทย์ </span>&nbsp;
-                                                    &nbsp;
-                                                    <input type="file" file-input="file_upload" />
+                                                        ng-model="selectedRecord.flight">
                                                 </div>
                                             </div>
                                             <div class="form-group">
                                                 <div class="form-inline">
                                                     <span class="font-weight-bold">Note </span>&nbsp;
                                                 </div>
-                                                <textarea ng-model="selectedRecord.note" style="resize:none" rows="3"
+                                                <textarea ng-model="selectedRecord.note" style="resize:none" rows="4"
                                                     class="form-control"></textarea>
                                             </div>
                                         </div>
@@ -145,14 +130,14 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-success" ng-click="onConfirmSave()">บันทึก</button>
+                        <button type="button" class="btn btn-success" ng-click="onConfirmSaveBehavior()">บันทึก</button>
                         <button type="button" class="btn btn-default" data-dismiss="modal">ปิด</button>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="modal fade bd-example-modal-sm" id="modalConfirm" tabindex="-1" role="dialog"
-            aria-labelledby="modalConfirm" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+        <div class="modal fade bd-example-modal-sm" id="modalConfirmBehavior" role="dialog"
+            aria-labelledby="modalConfirmBehavior" aria-hidden="true" data-backdrop="static" data-keyboard="false">
             <div class="modal-dialog modal-sm" role="document">
                 <div class="modal-content">
                     <div class="modal-header bg-warning">
@@ -166,7 +151,7 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-success" ng-click="onSave()">บันทึก</button>
+                        <button type="button" class="btn btn-success" ng-click="onSaveBehavior()">บันทึก</button>
                         <button type="button" class="btn btn-default" data-dismiss="modal">ปิด</button>
                     </div>
                 </div>
@@ -180,5 +165,5 @@
 <script src="includes/plugins/datatables/jquery.dataTables.js"></script>
 <script src="includes/plugins/datatables-bs4/js/dataTables.bootstrap4.js"></script>
 <script src="includes/plugins/datepicker/moment.min.js"></script>
-<script src="includes/plugins/daterangepicker/daterangepicker.js"></script>
-<script src="scripts/timeoff_list.js"></script>
+<script src="includes/plugins/datepicker/datepicker.js"></script>
+<script src="scripts/behavior_list.js"></script>

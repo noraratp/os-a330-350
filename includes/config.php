@@ -26,6 +26,14 @@ switch ($_SERVER["SCRIPT_NAME"]) {
         // 	header("Location: index.php");
         // }
         break;
+    case "/os-a330-350/behavior_list.php":
+        $CURRENT_PAGE = "BehaviorList";
+        $PAGE_TITLE = "Behavior List";
+        // if($_SESSION['login_user']->type != "admin")
+        // {
+        // 	header("Location: index.php");
+        // }
+        break;
     default:
         $CURRENT_PAGE = "Index";
         $PAGE_TITLE = "Dashboard";

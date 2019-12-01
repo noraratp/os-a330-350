@@ -11,6 +11,10 @@ $(function () {
                 end = picker.endDate.format('YYYY/MM/DD');
                 setSickLeaveDays(diff, start, end);
   });
+  $('.datepicker').datepicker({
+      autoclose: true,
+      language: 'TH',
+  });
 });
 
 function setSickLeaveDays(val, start, end) {
@@ -86,8 +90,15 @@ app.controller('empListCtrl', function ($scope, $http, $q ,$window) {
     
   }
 
+  $scope.onBehevior = function(id, type){
+    $scope.selectedEmployee = {};
+    $scope.selectedEmployee = $scope.employeeList.find(e=>e.id == id);
+    $scope.selectedEmployee.type = type;
+    $('#modalBehavior').modal("show");
+  }
+
   $scope.onConfirmSave = function(){
-    if ($(".form-control").hasClass("required-element")) {
+    if ($("dvBody .form-control").hasClass("required-element")) {
         hideLoading();
         showError("กรุณาตรวจสอบข้อมูลให้ครบถ้วน");
         return;
@@ -144,6 +155,46 @@ app.controller('empListCtrl', function ($scope, $http, $q ,$window) {
                 hideLoading();
                 showError(response.data.message);
             });
+  }
+
+  $scope.onConfirmSaveBehavior = function(){
+    if ($("#dvBodyBehavior .form-control").hasClass("required-element")) {
+        hideLoading();
+        showError("กรุณาตรวจสอบข้อมูลให้ครบถ้วน");
+        return;
+    }
+    $('#modalConfirmBehavior').modal("show");
+  }
+
+  $scope.onSaveBehavior = function() {
+    $('#modalConfirmBehavior').modal("hide");
+    showLoading();
+    $http({
+      method: "post",
+      url: "function/insert.php",
+      data: {
+          post_data: $scope.selectedEmployee,
+          action: "insert_behavior"
+      },
+      headers: {
+          'Content-Type': 'application/x-www-form-urlencoded'
+      }
+  }).then(function(response) {
+          if (response.status == 200) {
+              hideLoading();
+              $('#modalBehavior').modal("hide");
+              showSuccess("บันทึกข้อมูลสำเร็จ", false);
+              $scope.searchEmployee();
+          } else {
+              hideLoading();
+              showError(response.data.message);
+          }
+      },
+      function(response) { // optional
+          // failed
+          hideLoading();
+          showError(response.data.message);
+      });
   }
 
 });
