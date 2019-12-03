@@ -8,22 +8,10 @@ var options = {
     scrollY: "500px",
     scrollCollapse: true,
     autoWidth: true,
-    columns: [{
-        title: "#",
-        data: "id",
-        width: "50px",
-        render: function(data, type, row, meta) {
-            if (type === 'display') {
-                data = '<a onclick="onEdit(' + row.id + ')" href="#" class="btn btn-sm btn-warning"><i class="fas fa-pen"></i></a>&nbsp' +
-                    '<a onclick="onDelete(' + row.id + ')" href="#" class="btn btn-sm btn-danger"><i class="fas fa-trash"></i></a>';
-            }
-
-            return data;
-        }
-    },
+    columns: [
         {
             title: "Employee",
-            width: "120px",
+            width: "150px",
             data: "employee_display"
         },
         {
@@ -39,7 +27,19 @@ var options = {
         {
             title: "ความประพฤติ",
             data: "type_display",
-            width: "100px"
+            width: "100px",
+            render: function(data, type, row, meta) {
+                if (type === 'display') {
+                    if(row.type == 'good') {
+                        data = "<span class='text-success'>"+row.type_display+"</span>";
+                    }
+                    else {
+                        data = "<span class='text-danger'>"+row.type_display+"</span>";
+                    }
+                }
+    
+                return data;
+            }
         },
         {
             title: "หมายเหตุ",
@@ -64,7 +64,20 @@ var options = {
             title: "วันที่แก้ไข",
             data: "updated_date",
             width: "100px"
-        }
+        },
+        {
+            title: "#",
+            data: "id",
+            width: "100px",
+            render: function(data, type, row, meta) {
+                if (type === 'display') {
+                    data = '<a onclick="onEdit(' + row.id + ')" href="#" class="btn btn-sm btn-warning"><i class="fas fa-pen"></i></a>&nbsp' +
+                        '<a onclick="onDelete(' + row.id + ')" href="#" class="btn btn-sm btn-danger"><i class="fas fa-trash"></i></a>';
+                }
+    
+                return data;
+            }
+        },
     ],
 }
 
@@ -81,11 +94,12 @@ function onEdit(id) {
     angular.element(document.getElementById('dvBehaviorList')).scope().onEdit(id);
 }
 function onDelete(id) {
-    angular.element(document.getElementById('dvBehaviorList')).scope().onDelete(id);
+    angular.element(document.getElementById('dvBehaviorList')).scope().onConfirmDelete(id);
 }
 
 app.controller('behaviorListCtrl', function ($scope, $http, $q) {
     $scope.selectedRecord = {};
+    $scope.deletedItem = 0;
     angular.element(document).ready(function () {
         $scope.searchBehavior();
     });
@@ -143,7 +157,7 @@ app.controller('behaviorListCtrl', function ($scope, $http, $q) {
           $scope.$apply();
         }, 100);
         
-      }
+    }
 
     $scope.onEdit = function(id) {
         showLoading();
@@ -199,8 +213,43 @@ app.controller('behaviorListCtrl', function ($scope, $http, $q) {
             });
     }
 
+    $scope.onConfirmDelete = function(id) {
+        $scope.deletedItem = id;
+        $('#modalConfirmDelete').modal("show");
+    }
     $scope.onDelete = function(id) {
-
+        if( $scope.deletedItem == 0) {
+            showError("ไม่พบรายการที่เลือก");
+            return;
+        }
+        console.log($scope.deletedItem);
+        $http({
+            method: "post",
+            url: "function/insert.php",
+            data: {
+                post_data: $scope.deletedItem,
+                action: "delete_behavior"
+            },
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            }
+        }).then(function(response) {
+                if (response.status == 200) {
+                    hideLoading();
+                    $('#modalConfirmDelete').modal("hide");
+                    showSuccess("ลบข้อมูลสำเร็จ", false);
+                    $scope.deletedItem = 0;
+                    $scope.searchBehavior();
+                } else {
+                    hideLoading();
+                    showError(response.data.message);
+                }
+            },
+            function(response) { // optional
+                // failed
+                hideLoading();
+                showError(response.data.message);
+            });
     }
     
 });

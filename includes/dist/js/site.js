@@ -56,28 +56,61 @@ app.directive("fileInput", function($parse) {
 });
 
 
+var today = new Date();
+var yyyy;
+var dd;
+var mm;
 $(document).ready(function() {
     $('#loading_panel').hide();
     var item = $.fn.dataTable.tables();
 
-    for (var i = 0; i < item.length; i++) {
-        item[i].classList.add("table-column-header");
+    setTimeout(() => {
+        for (var i = 0; i < item.length; i++) {
+            item[i].classList.add("table-column-header");
+        }
+        $.fn.dataTable.tables({ visible: true, api: true }).columns.adjust();
+    }, 1000);
+    
+    
+    dd = today.getDate();
+    mm = today.getMonth() + 1;
+
+    yyyy = today.getFullYear();
+    if (dd < 10) {
+        dd = '0' + dd;
     }
-    $.fn.dataTable.tables({ visible: true, api: true }).columns.adjust();
-    
-    
+    if (mm < 10) {
+        mm = '0' + mm;
+    }
+    today = yyyy + '/' + mm + '/' + dd;
 });
 
 $(document).on('shown.bs.modal', function (e) {
-    $.fn.dataTable.tables( {visible: true, api: true} ).columns.adjust();
+    setTimeout(() => {
+        var item = $.fn.dataTable.tables();
+        for (var i = 0; i < item.length; i++) {
+            item[i].classList.add("table-column-header");
+        }
+        $.fn.dataTable.tables({ visible: true, api: true }).columns.adjust();
+    }, 500);
 });
-
+$(document).on('click', 'li', function (event) {
+    setTimeout(() => {
+        var item = $.fn.dataTable.tables();
+        for (var i = 0; i < item.length; i++) {
+            item[i].classList.add("table-column-header");
+        }
+        $.fn.dataTable.tables({ visible: true, api: true }).columns.adjust();
+    }, 500);
+});
 function showLoading() {
     $('#loading_panel').show();
+    
 }
 
 function hideLoading() {
     $('#loading_panel').hide();
+   
 }
 
 function showSuccess(msg, reload) {

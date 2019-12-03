@@ -34,7 +34,15 @@ switch ($_SERVER["SCRIPT_NAME"]) {
         // 	header("Location: index.php");
         // }
         break;
+    case "/os-a330-350/employee_detail.php":
+        $CURRENT_PAGE = "EmployeeDetail";
+        $PAGE_TITLE = "Employee Detail";
+        // if($_SESSION['login_user']->type != "admin")
+        // {
+        // 	header("Location: index.php");
+        // }
+        break;
     default:
         $CURRENT_PAGE = "Index";
-        $PAGE_TITLE = "Dashboard";
+        $PAGE_TITLE = "Sick Leave";
 }

@@ -20,7 +20,7 @@
         <a href="#" class="brand-link">
             <img src="includes/dist/img/AdminLTELogo.png" alt="Garage System" class="brand-image img-circle elevation-3"
                 style="opacity: .8">
-            <span class="brand-text font-weight-light">ระบบฐานข้อมูลลูกค้า</span>
+            <span class="brand-text font-weight-light">OS A300 A350</span>
         </a>
 
         <!-- Sidebar -->
@@ -58,7 +58,7 @@
                     </li>
                     <li class="nav-item">
                         <a href="employee_list.php"
-                            class="nav-link <?php if ($CURRENT_PAGE == "EmployeeList") {?>active<?php }?>">
+                            class="nav-link <?php if ($CURRENT_PAGE == "EmployeeList" || $CURRENT_PAGE == "EmployeeDetail") {?>active<?php }?>">
                             <i class="nav-icon fas fa-th"></i>
                             <p>
                                พนักงาน

@@ -8,22 +8,10 @@ var options = {
     scrollY: "500px",
     scrollCollapse: true,
     autoWidth: true,
-    columns: [{
-        title: "#",
-        data: "id",
-        width: "50px",
-        render: function(data, type, row, meta) {
-            if (type === 'display') {
-                data = '<a onclick="onEdit(' + row.id + ')" href="#" class="btn btn-sm btn-warning"><i class="fas fa-pen"></i></a>&nbsp' +
-                    '<a onclick="onDelete(' + row.id + ')" href="#" class="btn btn-sm btn-danger"><i class="fas fa-trash"></i></a>';
-            }
-
-            return data;
-        }
-    },
+    columns: [
         {
             title: "Employee",
-            width: "120px",
+            width: "150px",
             data: "employee_display"
         },
         {
@@ -39,12 +27,12 @@ var options = {
         {
             title: "วันที่เริ่มลา",
             data: "start_date",
-            width: "100px"
+            width: "150px"
         },
         {
             title: "ถึงวันที่",
             data: "end_date",
-            width: "100px"
+            width: "150px"
         },
         {
             title: "หมายเหตุ",
@@ -85,7 +73,20 @@ var options = {
             title: "วันที่แก้ไข",
             data: "updated_date",
             width: "100px"
-        }
+        },
+        {
+            title: "#",
+            data: "id",
+            width: "100px",
+            render: function(data, type, row, meta) {
+                if (type === 'display') {
+                    data = '<a onclick="onEdit(' + row.id + ')" href="#" class="btn btn-sm btn-warning"><i class="fas fa-pen"></i></a>&nbsp' +
+                        '<a onclick="onDelete(' + row.id + ')" href="#" class="btn btn-sm btn-danger"><i class="fas fa-trash"></i></a>';
+                }
+    
+                return data;
+            }
+        },
     ],
 }
 
@@ -113,7 +114,7 @@ function onEdit(id) {
     angular.element(document.getElementById('dvTimeoffList')).scope().onEdit(id);
 }
 function onDelete(id) {
-    angular.element(document.getElementById('dvTimeoffList')).scope().onDelete(id);
+    angular.element(document.getElementById('dvTimeoffList')).scope().onConfirmDelete(id);
 }
 function setIntialDate(start, end){
     console.log(start,end)
@@ -135,6 +136,7 @@ function setIntialDate(start, end){
 
 app.controller('timeoffListCtrl', function ($scope, $http, $q) {
     $scope.selectedRecord = {};
+    $scope.deletedItem = {};
     angular.element(document).ready(function () {
         $scope.searchTimeoff();
     });
@@ -269,8 +271,42 @@ app.controller('timeoffListCtrl', function ($scope, $http, $q) {
                 });
       }
 
+      $scope.onConfirmDelete = function(id) {
+        $scope.deletedItem = json_list.find(e=>e.id == id);
+        $('#modalConfirmDelete').modal("show");
+    }
     $scope.onDelete = function(id) {
-
+        if( $scope.deletedItem.id == undefined) {
+            showError("ไม่พบรายการที่เลือก");
+            return;
+        }
+        console.log($scope.deletedItem);
+        $http({
+            method: "post",
+            url: "function/insert.php",
+            data: {
+                post_data: $scope.deletedItem,
+                action: "delete_leave"
+            },
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            }
+        }).then(function(response) {
+                if (response.status == 200) {
+                    hideLoading();
+                    $('#modalConfirmDelete').modal("hide");
+                    showSuccess("ลบข้อมูลสำเร็จ", false);
+                    $scope.searchTimeoff();
+                } else {
+                    hideLoading();
+                    showError(response.data.message);
+                }
+            },
+            function(response) { // optional
+                // failed
+                hideLoading();
+                showError(response.data.message);
+            });
     }
     
 });

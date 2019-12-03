@@ -172,6 +172,23 @@
                 </div>
             </div>
         </div>
+        <div class="modal fade" id="modalConfirmDelete" tabindex="-1" role="dialog" aria-labelledby="modalConfirmDelete"
+            aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header bg-danger" style='color:white'>
+                        ยืนยันการลบข้อมูล
+                    </div>
+                    <div class="modal-body text-center">
+                        <h3 style="color:red">ยืนยันการลบข้อมูล ?</h3>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger" ng-click="onDelete()">OK</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
     <?php include("includes/footer.php"); ?>
 </body>

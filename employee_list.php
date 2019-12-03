@@ -66,17 +66,14 @@
                             </div>
                             <div class="card-footer">
                                 <div class="text-right">
-                                    <a href="#" class="btn btn-sm bg-success" ng-click="onBehevior(item.id,'good')">
-                                        <i class="far fa-thumbs-up"></i>
-                                    </a>
-                                    <a href="#" class="btn btn-sm bg-danger" ng-click="onBehevior(item.id,'bad')">
-                                        <i class="far fa-thumbs-down"></i>
+                                    <a href="#" class="btn btn-sm bg-warning" ng-click="onBehevior(item.id,'good')">
+                                        <i class="far fa-grin"></i> Behavior
                                     </a>
                                     <a href="#" class="btn btn-sm bg-teal" ng-click="onSickLeave(item.id)">
                                         <i class="fas fa-calendar"></i> Sick Leave
                                     </a>
                                     <a href="employee_detail.php?id={{item.id}}" class="btn btn-sm btn-primary">
-                                        <i class="fas fa-user"></i> View Profile
+                                        <i class="fas fa-user"></i> Profile
                                     </a>
                                 </div>
                             </div>
@@ -221,8 +218,8 @@
                 </div>
             </div>
         </div>
-        <div class="modal fade bd-example-modal-sm" id="modalConfirm" role="dialog"
-            aria-labelledby="modalConfirm" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+        <div class="modal fade bd-example-modal-sm" id="modalConfirm" role="dialog" aria-labelledby="modalConfirm"
+            aria-hidden="true" data-backdrop="static" data-keyboard="false">
             <div class="modal-dialog modal-sm" role="document">
                 <div class="modal-content">
                     <div class="modal-header bg-warning">
@@ -242,8 +239,8 @@
                 </div>
             </div>
         </div>
-        <div class="modal fade bd-example-modal-lg" id="modalBehavior" role="dialog"
-            aria-labelledby="modalInput" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+        <div class="modal fade bd-example-modal-lg" id="modalBehavior" role="dialog" aria-labelledby="modalInput"
+            aria-hidden="true" data-backdrop="static" data-keyboard="false">
             <div class="modal-dialog modal-lg" role="document">
                 <div class="modal-content">
                     <div class="modal-header bg-primary">

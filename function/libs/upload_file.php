@@ -1,14 +1,16 @@
 <?php
-// session_start();
-// // Do Something
-// if($_SESSION['login_user'] == "")
-// {
-// 	header("Location: login.php");
-// }
+session_start();
+// Do Something
+if($_SESSION['login_user'] == "")
+{
+	header("Location: login.php");
+}
 //require_once('inc/db.php');
 
 $data = json_decode(file_get_contents("php://input"));
 if (!empty($_FILES)) {
+    $date = date('Y-m-d_H-i-s');
+  
     $file_name = uniqid().$_FILES['file']['name'];
     $path = '../../file_upload/'.$file_name;
    

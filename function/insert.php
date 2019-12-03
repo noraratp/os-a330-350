@@ -13,7 +13,7 @@ if (isset($action) && !empty($action)) {
     switch ($action) {
         case 'save_customer': save_customer($params, $conn);
         break;
-        case 'update_customer': update_customer($params, $conn);
+        case 'update_employee': update_employee($params, $conn);
         break;
         case 'insert_employee': insert_employee($data, $conn);
         break;
@@ -21,7 +21,13 @@ if (isset($action) && !empty($action)) {
         break;
         case 'update_leave': update_leave($data, $conn);
         break;
+        case 'delete_leave': delete_leave($data, $conn);
+        break;
         case 'insert_behavior': insert_behavior($data, $conn);
+        break;
+        case 'update_behavior': update_behavior($data, $conn);
+        break;
+        case 'delete_behavior': delete_behavior($data, $conn);
         break;
         default: echo json_response(500, "Not found methods");
     }
@@ -35,10 +41,27 @@ function save_customer($params, $conn)
     $result = mysqli_execute_db($sql, $conn);
     echo $result;
 }
-function update_customer($params, $conn)
+function update_employee($params, $conn)
 {
     $username = $_SESSION['login_user']->username;
-    $sql = "UPDATE tb_customers SET firstname='$params->firstname',picture='$params->picture',updated_date=now(),updated_by='$username' WHERE id = $params->id";
+    $sql = "UPDATE tb_employee SET 
+    pers=$params->pers,
+    rank='$params->rank',
+    name_en='$params->name_en',
+    surname_en='$params->surname_en',
+    f_surname_en='$params->f_surname_en',
+    mobile='$params->mobile',
+    nickname='$params->nickname',
+    name_th='$params->name_th',
+    surname_th='$params->surname_th',
+    gothaimail='$params->gothaimail',
+    picture='$params->picture',
+    updated_by='$username',
+    timeoff_quota=$params->timeoff_quota,
+    updated_date=now()
+    
+    WHERE id = $params->id";
+
     $result = mysqli_execute_db($sql, $conn, $_FILES);
     echo $result;
 }
@@ -121,6 +144,25 @@ function update_leave($params, $conn)
 
     echo $result;
 }
+function delete_leave($params, $conn) {
+    $username = $_SESSION['login_user']->username;
+    $row = $params->post_data;
+    $diff_days = (int)$row->days;
+
+    $sql = " UPDATE tb_timeoff SET 
+    is_deleted=1,
+    updated_by='$username',
+    updated_date=now()
+     WHERE id = $row->id";
+
+    
+    $result = mysqli_execute_db($sql, $conn);
+
+    $sql = "UPDATE tb_employee SET timeoff_used=(timeoff_used-$diff_days) ,updated_date=now(),updated_by='$username' WHERE id = $row->employee_id";
+    $result = mysqli_execute_db($sql, $conn, $_FILES);
+
+    echo $result;
+}
 
 function insert_behavior($params, $conn)
 {
@@ -170,6 +212,22 @@ function update_behavior($params, $conn)
     updated_by='$username',
     updated_date=now()
      WHERE id = $row->id";
+
+    $result = mysqli_execute_db($sql, $conn);
+
+    echo $result;
+}
+
+function delete_behavior($params, $conn)
+{
+    $username = $_SESSION['login_user']->username;
+    $row = $params->post_data;
+
+    $sql = " UPDATE tb_behavior SET 
+    is_deleted = 1,
+    updated_by='$username',
+    updated_date=now()
+     WHERE id = $row";
 
     $result = mysqli_execute_db($sql, $conn);
 

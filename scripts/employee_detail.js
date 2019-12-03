@@ -107,8 +107,79 @@ function onDelete(id) {
 }
 
 app.controller('empDetailCtrl', function ($scope, $http, $q ,$window) {
+    $scope.file_upload = "";
     $scope.selectedRecord = {};
     $scope.item = {};
+    $scope.update = {};
+    $scope.rankList = [{
+        text: "FC",
+        value: "FC"
+    },
+    {
+        text: "FCH",
+        value: "FCH"
+    },
+    {
+        text: "FCI",
+        value: "FCI"
+    },
+    {
+        text: "FCIV",
+        value: "FCIV"
+    },
+    {
+        text: "FCR",
+        value: "FCR"
+    },
+    {
+        text: "FCRH",
+        value: "FCRH"
+    },
+    {
+        text: "FCRV",
+        value: "FCRV"
+    },
+    {
+        text: "FCS",
+        value: "FCS"
+    },
+    {
+        text: "FCT",
+        value: "FCT"
+    },
+    {
+        text: "FCV",
+        value: "FCV"
+    },
+    {
+        text: "FCVI",
+        value: "FCVI"
+    },
+    {
+        text: "FP",
+        value: "FP"
+    },
+    {
+        text: "FPI",
+        value: "FPI"
+    },
+    {
+        text: "FPIR",
+        value: "FPIR"
+    },
+    {
+        text: "FPM",
+        value: "FPM"
+    },
+    {
+        text: "FPR",
+        value: "FPR"
+    },
+    {
+        text: "FPT",
+        value: "FPT"
+    }
+]
     angular.element(document).ready(function () {
         var urlParams = new URLSearchParams(window.location.search);
         var id = urlParams.get('id');
@@ -258,6 +329,97 @@ app.controller('empDetailCtrl', function ($scope, $http, $q ,$window) {
         return
     });
     return dfrd.promise;
+    }
+
+    $scope.onEditProfile = function(data) {
+        showLoading();
+        setTimeout(function(){
+            angular.copy(data, $scope.update)
+            $scope.$apply();
+            $('#modalDetail').modal('show');
+            hideLoading();
+        },100);
+        
+    }
+    $scope.onSubmitUpdate = function() {
+        if ($("#dvEmployeeUpdate .form-control").hasClass("required-element")) {
+            hideLoading();
+            showError("กรุณาตรวจสอบข้อมูลให้ครบถ้วน");
+            return;
+        }
+
+        var form_data = new FormData();
+        angular.forEach($scope.file_upload, function(file) {
+            form_data.append('file', file);
+        });
+        $http.post('function/libs/upload_file.php', form_data, {
+            transformRequest: angular.identity,
+            headers: {
+                'Content-Type': undefined,
+                'Process-Data': false
+            },
+        }).then(function(response) {
+                $scope.update.picture = response.data == "" ? $scope.update.picture : response.data;
+                console.log($scope.update);
+                if($scope.update.id != undefined) {
+                    $http({
+                    method: "post",
+                    url: "function/insert.php",
+                    data: {
+                        post_data: $scope.update,
+                        action: "update_employee"
+                    },
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    }
+                    }).then(function(response) {
+                            if (response.status == 200) {
+                                hideLoading();
+                                showSuccess("บันทึกข้อมูลสำเร็จ", true);
+                            } else {
+                                hideLoading();
+                                showError(response.data.message);
+                            }
+                        },
+                    function(response) { // optional
+                        // failed
+                        hideLoading();
+                        showError(response.data.message);
+                    });
+
+                }
+                // else {
+                //     $http({
+                //     method: "post",
+                //     url: "function/insert.php",
+                //     data: {
+                //         post_data: $scope.create,
+                //         action: "insert_customer"
+                //     },
+                //     headers: {
+                //         'Content-Type': 'application/x-www-form-urlencoded'
+                //     }
+                //     }).then(function(response) {
+                //             if (response.status == 200) {
+                //                 hideLoading();
+                //                 showSuccess("บันทึกข้อมูลสำเร็จ", true);
+                //             } else {
+                //                 hideLoading();
+                //                 showError(response.data.message);
+                //             }
+                //         },
+                //     function(response) { // optional
+                //         // failed
+                //         hideLoading();
+                //         showError(response.data.message);
+                //     });
+                // }
+            },
+            function(response) { // optional
+                // failed
+                hideLoading();
+                showError(response.data.message);
+            });
     }
 
     
