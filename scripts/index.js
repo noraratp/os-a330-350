@@ -15,6 +15,18 @@ var options = {
     autoWidth: true,
     columns: [
         {
+            title: "#",
+            data: "id",
+            width: "30px",
+            render: function(data, type, row, meta) {
+                if (type === 'display') {
+                    data = '<a href="employee_detail.php?id='+row.id+'" class="btn btn-sm btn-warning"><i class="fas fa-search"></i></a>'
+                }
+    
+                return data;
+            }
+        },
+        {
             title: "Employee",
             width: "150px",
             data: "employee_display"
@@ -40,7 +52,7 @@ var options = {
           data: "gothaimail"
         },
         {
-            title: "Sick Leave",
+            title: "Total Leave (day)",
             width: "100px",
             data: "count_sick"
         },
@@ -81,16 +93,7 @@ app.controller('myCtrl', function($scope, $http, $q) {
     
     $scope.getDashboardSummary = function() {
         showLoading();
-        $scope.getSummaryDashboard().then(function(data) {
-         
-          setTimeout(function() {
-              $scope.dashboard = data;
-              $scope.dashboard.all_emp = parseInt($scope.dashboard.all_cap) + parseInt($scope.dashboard.all_co);
-              $scope.$apply();
-              hideLoading();
-          }, 100);
 
-        });
         $scope.getSummaryYear().then(function(data) {
             console.log(data);
             $scope.sumFC =0;
@@ -112,9 +115,16 @@ app.controller('myCtrl', function($scope, $http, $q) {
                         borderColor: e.rank == 'FC' ? 'red' : 'green',
                         fill: false
                     })
-                    $scope.sumFC = data.find(e=>e.rank == "FC").sumall;
-                    $scope.sumFP = data.find(e=>e.rank == "FP").sumall;
+                    
                 });
+                var sumFC = data.find(e=>e.rank == "FC");
+                var sumFP = data.find(e=>e.rank == "FP");
+                if(sumFC) {
+                    $scope.sumFC = sumFC.sumall;
+                }
+                if(sumFP) {
+                    $scope.sumFP = sumFP.sumall;
+                }
                
                 var lineChart = new Chart(lineChartCanvas, {
                     type: 'line',

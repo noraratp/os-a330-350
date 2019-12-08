@@ -58,6 +58,12 @@ function update_employee($params, $conn)
     picture='$params->picture',
     updated_by='$username',
     timeoff_quota=$params->timeoff_quota,
+
+    a330=$params->a330,
+    a350=$params->a350,
+    a350cruise=$params->a350cruise,
+    lh_qualified=$params->lh_qualified,
+    rh_qualified=$params->rh_qualified,
     updated_date=now()
     
     WHERE id = $params->id";
@@ -71,7 +77,7 @@ function insert_employee($params, $conn)
     $username = $_SESSION['login_user']->username;
     foreach ($params->post_data as $row) {
         $sql = " INSERT INTO tb_employee (pers,rank,name_en,surname_en,f_surname_en
-        ,mobile,nickname,name_th,surname_th,gothaimail,created_by,created_date,status)
+        ,mobile,nickname,name_th,surname_th,gothaimail,created_by,created_date,status,a330,a350,a350cruise,lh_qualified,rh_qualified)
         VALUES (
         $row->pers,
         '$row->rank',
@@ -83,6 +89,11 @@ function insert_employee($params, $conn)
         '$row->name_th',
         '$row->surname_th',
         '$row->gothaimail',
+        '$row->a330',
+        '$row->a350',
+        '$row->a350cruise',
+        '$row->lh_qualified',
+        '$row->rh_qualified',
         '$username',now(),1) ";
 
         $result = mysqli_execute_db($sql, $conn);

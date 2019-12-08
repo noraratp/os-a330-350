@@ -98,7 +98,7 @@ app.controller('empListCtrl', function ($scope, $http, $q ,$window) {
   }
 
   $scope.onConfirmSave = function(){
-    if ($("dvBody .form-control").hasClass("required-element")) {
+    if ($("#dvBodySickLeave .form-control").hasClass("required-element")) {
         hideLoading();
         showError("กรุณาตรวจสอบข้อมูลให้ครบถ้วน");
         return;

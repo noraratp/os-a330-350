@@ -56,6 +56,19 @@
                                             <li class="small"><span class="fa-li"><i
                                                         class="fas fa-lg fa-phone"></i></span> Phone : {{item.mobile}}
                                             </li>
+                                            <li class="small"><span class="fa-li"></span> A330 :
+                                                {{item.a330 == '1' ? 'Yes' :'No'}}</li>
+                                            <li class="small"><span class="fa-li"></span> A350 :
+                                                {{item.a350  == '1' ? 'Yes' :'No'}}
+                                            </li>
+                                            <li class="small"><span class="fa-li"></span> A350 Cruise :
+                                                {{item.a350cruise == '1' ? 'Yes' :'No'}}</li>
+                                            <li ng-if="item.sub_rank == 'FC'" class="small"><span class="fa-li"></span>
+                                                RH Qualified : {{item.rh_qualified == '1' ? 'Yes' :'No'}}
+                                            </li>
+                                            <li ng-if="item.sub_rank == 'FP'" class="small"><span class="fa-li"></span>
+                                                LH Qualified : {{item.lh_qualified == '1' ? 'Yes' :'No'}}
+                                            </li>
                                         </ul>
                                     </div>
                                     <div class="col-5 text-center">
@@ -99,7 +112,7 @@
                             <span aria-hidden="true">×</span>
                         </button>
                     </div>
-                    <div class="modal-body" id="dvBody">
+                    <div class="modal-body" id="dvBodySickLeave">
                         <div class="container">
                             <div class="row">
                                 <div class="col-sm">
@@ -139,6 +152,29 @@
                                                 </li>
                                                 <li class="list-group-item">
                                                     <b>Tel</b> <a class="float-right">{{selectedEmployee.mobile}}</a>
+                                                </li>
+                                                <li class="list-group-item"><span class="fa-li"></span> A330
+                                                    <a class="float-right">
+                                                        {{selectedEmployee.a330 == '1' ? 'Yes' :'No'}}</a>
+                                                </li>
+                                                <li class="list-group-item"><span class="fa-li"></span> A350
+                                                    <a class="float-right">
+                                                        {{selectedEmployee.a350 == '1' ? 'Yes' :'No'}}</a>
+                                                </li>
+                                                <li class="list-group-item"><span class="fa-li"></span> A350 Cruise
+                                                    <a class="float-right">
+                                                        {{selectedEmployee.a350cruise == '1' ? 'Yes' :'No'}}</a></li>
+                                                <li ng-if="selectedEmployee.sub_rank == 'FC'" class="list-group-item">
+                                                    <span class="fa-li"></span>
+                                                    RH Qualified
+                                                    <a class="float-right">
+                                                        {{selectedEmployee.rh_qualified == '1' ? 'Yes' :'No'}}</a>
+                                                </li>
+                                                <li ng-if="selectedEmployee.sub_rank == 'FP'" class="list-group-item">
+                                                    <span class="fa-li"></span>
+                                                    LH Qualified
+                                                    <a class="float-right">
+                                                        {{selectedEmployee.lh_qualified == '1' ? 'Yes' :'No'}}</a>
                                                 </li>
                                             </ul>
                                         </div>
@@ -289,6 +325,29 @@
                                                 </li>
                                                 <li class="list-group-item">
                                                     <b>Tel</b> <a class="float-right">{{selectedEmployee.mobile}}</a>
+                                                </li>
+                                                <li class="list-group-item"><span class="fa-li"></span> A330
+                                                    <a class="float-right">
+                                                        {{selectedEmployee.a330 == '1' ? 'Yes' :'No'}}</a>
+                                                </li>
+                                                <li class="list-group-item"><span class="fa-li"></span> A350
+                                                    <a class="float-right">
+                                                        {{selectedEmployee.a350 == '1' ? 'Yes' :'No'}}</a>
+                                                </li>
+                                                <li class="list-group-item"><span class="fa-li"></span> A350 Cruise
+                                                    <a class="float-right">
+                                                        {{selectedEmployee.a350cruise == '1' ? 'Yes' :'No'}}</a></li>
+                                                <li ng-if="selectedEmployee.sub_rank == 'FC'" class="list-group-item">
+                                                    <span class="fa-li"></span>
+                                                    RH Qualified
+                                                    <a class="float-right">
+                                                        {{selectedEmployee.rh_qualified == '1' ? 'Yes' :'No'}}</a>
+                                                </li>
+                                                <li ng-if="selectedEmployee.sub_rank == 'FP'" class="list-group-item">
+                                                    <span class="fa-li"></span>
+                                                    LH Qualified
+                                                    <a class="float-right">
+                                                        {{selectedEmployee.lh_qualified == '1' ? 'Yes' :'No'}}</a>
                                                 </li>
                                             </ul>
                                         </div>

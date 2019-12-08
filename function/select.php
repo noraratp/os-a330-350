@@ -34,12 +34,17 @@ if (isset($_GET['action']) && !empty($_GET['action'])) {
 
 function get_employee_list($id, $params, $conn)
 {
-    $sql="SELECT * ,((timeoff_quota - timeoff_used)/timeoff_quota * 100) as timeoff_percent from tb_employee WHERE status = 1";
+    $sql="SELECT * ,((timeoff_quota - timeoff_used)/timeoff_quota * 100) as timeoff_percent,
+    SUBSTRING(rank,1,2) as sub_rank
+    from tb_employee WHERE status = 1";
     echo mysqli_get_json_list($sql, $conn);
 }
 function get_employee_by_id($id, $params, $conn)
 {
-    $sql="SELECT * ,((timeoff_quota - timeoff_used)/timeoff_quota * 100) as timeoff_percent from tb_employee WHERE id='$id' and status = 1";
+    $sql="SELECT * ,((timeoff_quota - timeoff_used)/timeoff_quota * 100) as timeoff_percent ,
+    SUBSTRING(rank,1,2) as sub_rank
+    from tb_employee
+    WHERE id='$id' and status = 1";
     echo mysqli_get_json_object($sql, $conn);
 }
 function get_timeoff_list($id, $params, $conn)
@@ -61,9 +66,11 @@ function get_timeoff_list($id, $params, $conn)
 }
 function get_timeoff_sum_by_emp($params, $conn)
 {
-    $sql="select count(t1.id) as count_sick ,  CONCAT(t2.rank , ' ' , t2.name_en , ' ' , t2.f_surname_en) as employee_display ,t2.gothaimail,t2.mobile,t2.name_en,t2.surname_en 
+    $sql="select count(t1.id) as count_sick ,  CONCAT(t2.rank , ' ' , t2.name_en , ' ' , t2.f_surname_en) as employee_display 
+    ,t2.gothaimail,t2.mobile,t2.name_en,t2.surname_en ,t2.id
     from tb_employee t2
-    LEFT JOIN tb_timeoff t1 on t2.id = t1.employee_id WHERE 0=0 and t1.is_deleted=0 and t2.status = 1";
+    LEFT JOIN tb_timeoff t1 on t2.id = t1.employee_id and t1.is_deleted=0 
+    WHERE 0=0 and t2.status = 1";
     if($params->year) {
         $sql .= " and YEAR(t1.start_date) = '$params->year'";
     }

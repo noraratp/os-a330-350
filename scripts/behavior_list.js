@@ -172,7 +172,7 @@ app.controller('behaviorListCtrl', function ($scope, $http, $q) {
         }, 500);
     }
     
-    $scope.onConfirmSave = function(){
+    $scope.onConfirmSaveBehavior = function(){
         if ($(".form-control").hasClass("required-element")) {
             hideLoading();
             showError("กรุณาตรวจสอบข้อมูลให้ครบถ้วน");
@@ -181,7 +181,7 @@ app.controller('behaviorListCtrl', function ($scope, $http, $q) {
         $('#modalConfirmBehavior').modal("show");
     }
 
-    $scope.onSave = function() {
+    $scope.onSaveBehavior = function() {
         $('#modalConfirmBehavior').modal("hide");
         showLoading();
 
@@ -198,7 +198,7 @@ app.controller('behaviorListCtrl', function ($scope, $http, $q) {
         }).then(function(response) {
                 if (response.status == 200) {
                     hideLoading();
-                    $('#modalInput').modal("hide");
+                    $('#modalBehavior').modal("hide");
                     showSuccess("บันทึกข้อมูลสำเร็จ", false);
                     $scope.searchBehavior();
                 } else {

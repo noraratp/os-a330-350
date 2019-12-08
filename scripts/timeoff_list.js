@@ -10,82 +10,46 @@ var options = {
     autoWidth: true,
     columns: [
         {
+            title: "#",
+            data: "id",
+            width: "30px",
+            render: function(data, type, row, meta) {
+                if (type === 'display') {
+                    data = '<a href="employee_detail.php?id='+row.id+'" class="btn btn-sm btn-warning"><i class="fas fa-search"></i></a>'
+                }
+    
+                return data;
+            }
+        },
+        {
             title: "Employee",
             width: "150px",
             data: "employee_display"
         },
         {
-            title: "Flight",
-            width: "80px",
-            data: "flight"
+          title: "Name",
+          width: "80px",
+          data: "name_en"
         },
         {
-            title: "จำนวนวันลา",
+          title: "Surname",
+          width: "80px",
+          data: "surname_en"
+        },
+        {
+          title: "Mobile",
+          width: "100px",
+          data: "mobile"
+        },
+        {
+          title: "Gothaimail",
+          width: "100px",
+          data: "gothaimail"
+        },
+        {
+            title: "Total Leave (day)",
             width: "100px",
-            data: "days"
-        },
-        {
-            title: "วันที่เริ่มลา",
-            data: "start_date",
-            width: "150px"
-        },
-        {
-            title: "ถึงวันที่",
-            data: "end_date",
-            width: "150px"
-        },
-        {
-            title: "หมายเหตุ",
-            data: "note",
-        },
-        {
-            title: "ใบรับรองแพทย์",
-            data: "medical_cert",
-            render: function(data, type, row, meta) {
-                if (type === 'display') {
-                    if(data === "") { 
-                        data = '-';
-                    }
-                    else {
-                        data = '<a href="' + row.medical_cert + '" target="_blank">มี</a>';
-                    }
-                }
-
-                return data;
-            }
-        },
-        {
-            title: "สร้างโดย",
-            data: "created_by",
-            width: "100px"
-        },
-        {
-            title: "วันที่สร้าง",
-            data: "created_date",
-            width: "100px"
-        },
-        {
-            title: "แก้ไขโดย",
-            data: "updated_by",
-            width: "100px"
-        },
-        {
-            title: "วันที่แก้ไข",
-            data: "updated_date",
-            width: "100px"
-        },
-        {
-            title: "#",
-            data: "id",
-            width: "100px",
-            render: function(data, type, row, meta) {
-                if (type === 'display') {
-                    data = '<a onclick="onEdit(' + row.id + ')" href="#" class="btn btn-sm btn-warning"><i class="fas fa-pen"></i></a>&nbsp' +
-                        '<a onclick="onDelete(' + row.id + ')" href="#" class="btn btn-sm btn-danger"><i class="fas fa-trash"></i></a>';
-                }
-    
-                return data;
-            }
+            data: "count_sick"
         },
     ],
 }
@@ -167,7 +131,7 @@ app.controller('timeoffListCtrl', function ($scope, $http, $q) {
         'Pragma':'no-cache'
         },
         params: {
-        action: "get_timeoff_list"
+        action: "get_timeoff_sum_by_emp"
         },
     }).then(function successCallback(response) {
         if (response.status == 200) {
@@ -194,7 +158,7 @@ app.controller('timeoffListCtrl', function ($scope, $http, $q) {
           $scope.$apply();
         }, 100);
         
-      }
+    }
 
     $scope.onEdit = function(id) {
         showLoading();
@@ -269,9 +233,9 @@ app.controller('timeoffListCtrl', function ($scope, $http, $q) {
                     hideLoading();
                     showError(response.data.message);
                 });
-      }
+    }
 
-      $scope.onConfirmDelete = function(id) {
+    $scope.onConfirmDelete = function(id) {
         $scope.deletedItem = json_list.find(e=>e.id == id);
         $('#modalConfirmDelete').modal("show");
     }
