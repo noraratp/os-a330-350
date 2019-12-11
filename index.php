@@ -25,13 +25,17 @@
                         <div class="card-header border-0">
                             <div class="d-flex justify-content-between">
                                 <h3 class="card-title">Sick Leave</h3>
-                                <a href="timeoff_list.php">View Report</a>
+                                <a class="btn btn-primary" href="timeoff_list.php"><i class="fas fa-list"></i></a>
                             </div>
-                            <select style="margin-top:10px" id="selected" ng-change="getDashboardSummary()" class="form-inline" ng-model="selectedYear">
-                                <option disabled value="">-----</option>
-                                <option ng-repeat="item in years" ng-selected="{{item == selectedYear}}"
-                                    value="{{item}}">{{item}}</option>
-                            </select>
+                            <div class="d-flex justify-content-between">
+                                &nbsp;
+                                <select style="margin-top:10px;width:100px" id="selected"
+                                    ng-change="getDashboardSummary()" class="form-control" ng-model="selectedYear">
+                                    <option ng-repeat="item in years" ng-selected="item == selectedYear"
+                                        value="{{item}}">{{item}}</option>
+                                </select>
+                            </div>
+
                         </div>
                         <div class="card-body">
                             <div class="d-flex">
@@ -63,7 +67,7 @@
                     </div>
                 </div>
                 <!-- /.card -->
-                <div class="col-lg-12">
+                <!-- <div class="col-lg-12">
                     <div class="card">
                         <div class="card-header border-0">
                             <h3 class="card-title">Export PDF </h3>
@@ -74,8 +78,7 @@
                             </table>
                         </div>
                     </div>
-                    <!-- /.card -->
-                </div>
+                </div> -->
             </div>
         </div>
     </div>

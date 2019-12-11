@@ -1,6 +1,48 @@
 var json_list = [];
 var tbTimeoff;
 var options = {
+    dom: 'Bfrtip',
+    buttons: [
+        {
+            extend: 'pdfHtml5',
+            orientation: 'portrait',
+            exportOptions: {
+                columns: [ 0, 2, 3, 4, 5, 6, 7, 8, 9 ]
+            },
+            pageSize: 'TABLOID',
+            customize: function (doc) {
+                var tblBody = doc.content[1].table.body;
+                doc.content[1].layout = {
+                hLineWidth: function(i, node) {
+                    return (i === 0 || i === node.table.body.length) ? 2 : 1;},
+                vLineWidth: function(i, node) {
+                    return (i === 0 || i === node.table.widths.length) ? 2 : 1;},
+                hLineColor: function(i, node) {
+                    return (i === 0 || i === node.table.body.length) ? 'black' : 'gray';},
+                vLineColor: function(i, node) {
+                    return (i === 0 || i === node.table.widths.length) ? 'black' : 'gray';}
+                };
+                $('#gridID').find('tr').each(function (ix, row) {
+                    var index = ix;
+                    var rowElt = row;
+                    $(row).find('td').each(function (ind, elt) {
+                        tblBody[index][ind].border
+                        if (tblBody[index][1].text == '' && tblBody[index][2].text == '') {
+                            delete tblBody[index][ind].style;
+                            tblBody[index][ind].fillColor = '#FFF9C4';
+                        }
+                        else
+                        {
+                            if (tblBody[index][2].text == '') {
+                                delete tblBody[index][ind].style;
+                                tblBody[index][ind].fillColor = '#FFFDE7';
+                            }
+                        }
+                    });
+                });
+            }
+        }
+    ],
     paging: true,
     bInfo: false,
     bFilter: true,
@@ -10,9 +52,18 @@ var options = {
     autoWidth: true,
     columns: [
         {
-            title: "#",
+            title: "No.",
+            width: "10px",
+            className: "text-center",
+            render : function ( data, type, full, meta ) {
+                return  meta.row + 1;
+            }
+        },
+        {
+            title: "View",
             data: "id",
             width: "30px",
+            className: "text-center",
             render: function(data, type, row, meta) {
                 if (type === 'display') {
                     data = '<a href="employee_detail.php?id='+row.id+'" class="btn btn-sm btn-warning"><i class="fas fa-search"></i></a>'
@@ -41,15 +92,29 @@ var options = {
           width: "100px",
           data: "mobile"
         },
+       
         {
           title: "Gothaimail",
           width: "100px",
           data: "gothaimail"
         },
         {
-            title: "Total Leave (day)",
-            width: "100px",
-            data: "count_sick"
+            title: "Year",
+            width: "50px",
+            data: "yyyy",
+            className: "text-center",
+        },
+        {
+            title: "Total Leave (days)",
+            width: "50px",
+            data: "sum_days",
+            className: "text-center",
+        },
+        {
+            title: "Leave (times)",
+            width: "50px",
+            data: "count_sick",
+            className: "text-center",
         },
     ],
 }
@@ -101,8 +166,17 @@ function setIntialDate(start, end){
 app.controller('timeoffListCtrl', function ($scope, $http, $q) {
     $scope.selectedRecord = {};
     $scope.deletedItem = {};
+    $scope.selectedYear = "";
+
+    $scope.years = [2019, 2020, 2021, 2022, 2023];
     angular.element(document).ready(function () {
-        $scope.searchTimeoff();
+        setTimeout(function() {
+            $scope.selectedYear = yyyy;
+            $scope.searchTimeoff();
+            $scope.$apply();
+            console.log($scope.selectedYear);
+        }, 100);
+        
     });
 
     $scope.searchTimeoff = function () {
@@ -131,7 +205,10 @@ app.controller('timeoffListCtrl', function ($scope, $http, $q) {
         'Pragma':'no-cache'
         },
         params: {
-        action: "get_timeoff_sum_by_emp"
+            params:{
+                year: $scope.selectedYear
+            },
+            action: "get_timeoff_sum_by_emp"
         },
     }).then(function successCallback(response) {
         if (response.status == 200) {

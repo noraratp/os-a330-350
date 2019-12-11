@@ -20,7 +20,7 @@ switch ($_SERVER["SCRIPT_NAME"]) {
         break;
     case "/os-a330-350/timeoff_list.php":
         $CURRENT_PAGE = "TimeoffList";
-        $PAGE_TITLE = "Timeoff List";
+        $PAGE_TITLE = "Sick Leave";
         // if($_SESSION['login_user']->type != "admin")
         // {
         // 	header("Location: index.php");
@@ -44,5 +44,5 @@ switch ($_SERVER["SCRIPT_NAME"]) {
         break;
     default:
         $CURRENT_PAGE = "Index";
-        $PAGE_TITLE = "Sick Leave";
+        $PAGE_TITLE = "Dashboard";
 }

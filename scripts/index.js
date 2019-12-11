@@ -13,9 +13,14 @@ var options = {
     scrollY: "500px",
     scrollCollapse: true,
     autoWidth: true,
-    columns: [
-        {
+    columns: [{
             title: "#",
+            render : function ( data, type, full, meta ) {
+                return  meta.row;
+            }
+        },
+        {
+            title: "View",
             data: "id",
             width: "30px",
             render: function(data, type, row, meta) {
@@ -141,18 +146,18 @@ app.controller('myCtrl', function($scope, $http, $q) {
             }, 100);
 
         });
-        $scope.getTimeoff().then(function (data) {
-          setTimeout(function(){
-            json_list = data;
+        // $scope.getTimeoff().then(function (data) {
+        //   setTimeout(function(){
+        //     json_list = data;
 
-            tbTimeoff.clear();
-            tbTimeoff.rows.add(json_list);
-            tbTimeoff.draw();
+        //     tbTimeoff.clear();
+        //     tbTimeoff.rows.add(json_list);
+        //     tbTimeoff.draw();
             
-            $scope.$apply();
-            hideLoading();
-          },100);
-        });
+        //     $scope.$apply();
+        //     hideLoading();
+        //   },100);
+        // });
     }
 
     $scope.getSummaryDashboard = function() {

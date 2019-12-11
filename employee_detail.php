@@ -200,15 +200,15 @@
                             &nbsp;
                         </div>
                         <div class="form-inline" style="margin-bottom:10px">
-                            <label style="width:100px" for="a330" class="col-form-label">Is A330 </label> :
+                            <label style="width:100px" for="a330" class="col-form-label">A330 </label> :
                             &nbsp;
                             <input class="form-check-input" name="a330" ng-model="update.a330" type="checkbox">
                             &nbsp;
-                            <label style="width:100px" for="a350" class="col-form-label">Is A350 </label> :
+                            <label style="width:100px" for="a350" class="col-form-label">A350 </label> :
                             &nbsp;
                             <input class="form-check-input" name="a330" ng-model="update.a350" type="checkbox">
                             &nbsp;
-                            <label style="width:150px" for="a350cruise" class="col-form-label">Is A350 Cruise </label> :
+                            <label style="width:150px" for="a350cruise" class="col-form-label">A350 Cruise </label> :
                             &nbsp;
                             <input class="form-check-input" name="a350cruise" ng-model="update.a350cruise"
                                 type="checkbox">

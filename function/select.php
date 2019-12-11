@@ -66,19 +66,28 @@ function get_timeoff_list($id, $params, $conn)
 }
 function get_timeoff_sum_by_emp($params, $conn)
 {
-    $sql="select count(t1.id) as count_sick ,  CONCAT(t2.rank , ' ' , t2.name_en , ' ' , t2.f_surname_en) as employee_display 
-    ,t2.gothaimail,t2.mobile,t2.name_en,t2.surname_en ,t2.id
-    from tb_employee t2
-    LEFT JOIN tb_timeoff t1 on t2.id = t1.employee_id and t1.is_deleted=0 
+    $param = json_decode($params);
+    $sql="select IFNULL(tsum.count_sick,0) as count_sick ,IFNULL(tsum.sum_days,0) as sum_days,
+    CONCAT(t2.rank , ' ' , t2.name_en , ' ' , t2.f_surname_en) as employee_display 
+    ,t2.gothaimail,t2.mobile,t2.name_en,t2.surname_en ,t2.id , ";
+    if ($param->year) {
+        $sql .= "'$param->year' as yyyy ";
+    }
+    $sql .= " from tb_employee t2
+    LEFT JOIN (SELECT 
+    IFNULL(count(t1.id),0) as count_sick , 
+	IFNULL(sum(t1.days),0) as sum_days ,
+	t1.employee_id
+	FROM
+    tb_timeoff t1
+    WHERE
+    t1.is_deleted=0 ";
+    if ($param->year) {
+        $sql .= " and YEAR(t1.start_date) = '$param->year'";
+    }
+    $sql .= " GROUP BY t1.employee_id) as tsum
+    on t2.id = tsum.employee_id
     WHERE 0=0 and t2.status = 1";
-    if($params->year) {
-        $sql .= " and YEAR(t1.start_date) = '$params->year'";
-    }
-    if($params->month) {
-        $sql .= " and MONTH(t1.start_date) = '$params->month'";
-    }
-    $sql .= " GROUP BY t2.id";
-
     echo mysqli_get_json_list($sql, $conn);
     
 }

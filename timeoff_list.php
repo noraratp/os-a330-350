@@ -18,6 +18,15 @@
 
         </div>
         <div class="card-body">
+            <div class="d-flex justify-content-between">
+                <select style="margin-top:10px;width:100px" id="selected" ng-change="searchTimeoff()" class="form-control"
+                    ng-model="selectedYear">
+                    <option ng-repeat="item in years" ng-selected="item == selectedYear" value="{{item}}">{{item}}
+                    </option>
+                </select>
+                &nbsp;
+            </div>
+
             <div class="col" style="margin-top:10px">
                 <table class="table table-hover" id="tbTimeoff" style="width:100%">
                 </table>
@@ -195,6 +204,11 @@
 
 </html>
 <script src="includes/plugins/datatables/jquery.dataTables.js"></script>
+<script src="includes/plugins/datatables-export/dataTables.buttons.min.js"></script>
+<script src="includes/plugins/datatables-export/jszip.min.js"></script>
+<script src="includes/plugins/datatables-export/pdfmake.min.js"></script>
+<script src="includes/plugins/datatables-export/vfs_fonts.js"></script>
+<script src="includes/plugins/datatables-export/buttons.html5.min.js"></script>
 <script src="includes/plugins/datatables-bs4/js/dataTables.bootstrap4.js"></script>
 <script src="includes/plugins/datepicker/moment.min.js"></script>
 <script src="includes/plugins/daterangepicker/daterangepicker.js"></script>
